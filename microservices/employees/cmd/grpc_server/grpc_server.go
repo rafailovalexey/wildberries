@@ -13,10 +13,6 @@ import (
 func Run(api employees_v1.EmployeesV1Server) {
 	hostname := os.Getenv("HOSTNAME")
 
-	if hostname == "" {
-		log.Fatalf("укажите имя хоста")
-	}
-
 	port := os.Getenv("PORT")
 
 	if port == "" {

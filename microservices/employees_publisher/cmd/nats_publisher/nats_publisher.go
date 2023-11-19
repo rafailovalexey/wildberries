@@ -1,6 +1,7 @@
 package nats_publisher
 
 import (
+	"fmt"
 	"github.com/emptyhopes/employees_publisher/internal/controller"
 	"github.com/nats-io/stan.go"
 	"log"
@@ -13,10 +14,14 @@ func Run(employeeController controller.InterfaceEmployeeController) {
 
 	defer sc.Close()
 
-	for {
-		employeeController.PublishEmployee(sc, "create_employees")
+	queue := "employees"
 
-		time.Sleep(10 * time.Second)
+	fmt.Printf("подписался на очередь %s\n", queue)
+
+	for {
+		employeeController.PublishEmployee(sc, queue)
+
+		time.Sleep(1 * time.Second)
 	}
 }
 

@@ -10,12 +10,11 @@ import (
 	"syscall"
 )
 
-func Run(orderController controller.InterfaceEmployeeController) {
+func Run(employeeController controller.InterfaceEmployeeController) {
 	sc := connect()
-
 	defer sc.Close()
 
-	subscribe(sc, "employees", "create_employees", orderController.CreateEmployee)
+	subscribe(sc, "employees", "employees", employeeController.CreateEmployee)
 }
 
 func connect() stan.Conn {
@@ -51,7 +50,7 @@ func subscribe(sc stan.Conn, subject string, queue string, handler stan.MsgHandl
 
 	fmt.Printf("подписался на очередь сообщений: %s\n", subject)
 
-	channel := make(chan os.Signal, 1)
+	channel := make(chan os.Signal)
 	signal.Notify(channel, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
 	<-channel
 }

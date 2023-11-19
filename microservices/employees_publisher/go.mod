@@ -6,7 +6,7 @@ require (
 	github.com/google/uuid v1.4.0
 	github.com/joho/godotenv v1.5.1
 	github.com/nats-io/stan.go v0.10.4
-	golang.org/x/net v0.10.0
+	golang.org/x/net v0.18.0
 )
 
 require (

@@ -90,7 +90,7 @@ func (d *database) CreateTables(pool *pgxpool.Pool) {
 func createEmployeeTable(pool *pgxpool.Pool) {
 	query := `
 		CREATE TABLE IF NOT EXISTS employees (
-			employee_id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+			employee_id UUID DEFAULT gen_random_uuid() PRIMARY KEY
 		);
 	`
 

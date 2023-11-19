@@ -42,5 +42,13 @@ func (c *controller) CreateEmployee(
 
 	employeeDto := c.employeeConverter.MapEmployeePayloadToEmployeeDto(&employeePayload)
 
-	c.employeeService.CreateEmployee(employeeDto)
+	err = c.employeeService.CreateEmployee(employeeDto)
+
+	if err != nil {
+		fmt.Printf("произошла ошибка при создание сотрудника %v\n", err)
+
+		return
+	}
+
+	fmt.Printf("сотрудник успешно создан с employee_id: %s", employeeDto.EmployeeId)
 }

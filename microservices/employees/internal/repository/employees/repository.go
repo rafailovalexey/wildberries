@@ -55,7 +55,7 @@ func getEmployee(
 ) (*model.EmployeeModel, error) {
 	query := `
         SELECT
-           	employee_id,         
+           	employee_id
         FROM employees
         WHERE employee_id = $1
     `

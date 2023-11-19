@@ -13,17 +13,7 @@ services:
       context: "../microservices/employees"
       dockerfile: "application.dockerfile"
 
-  employees-subscriber:
-    container_name: "employees_subscriber"
-    hostname: "employees_subscriber"
-    restart: "always"
-    networks:
-      - "network"
-    build:
-      context: "../microservices/employees_subscriber"
-      dockerfile: "subscriber.dockerfile"
-
-  employees-publisher:
+  employees_publisher:
     container_name: "employees_publisher"
     hostname: "employees_publisher"
     restart: "always"
@@ -32,6 +22,16 @@ services:
     build:
       context: "../microservices/employees_publisher"
       dockerfile: "publisher.dockerfile"
+
+  employees_subscriber:
+    container_name: "employees_subscriber"
+    hostname: "employees_subscriber"
+    restart: "always"
+    networks:
+      - "network"
+    build:
+      context: "../microservices/employees_subscriber"
+      dockerfile: "subscriber.dockerfile"
 
 networks:
   network:

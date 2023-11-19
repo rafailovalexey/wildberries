@@ -56,7 +56,7 @@ func insertEmployee(
 ) error {
 	query := `
         INSERT INTO employees (
-        	employee_id,
+        	employee_id
         )
         VALUES (
         	$1
