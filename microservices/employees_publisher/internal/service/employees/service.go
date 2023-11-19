@@ -7,19 +7,21 @@ import (
 )
 
 type service struct {
-	repository repository.InterfaceEmployeeRepository
+	employeeRepository repository.InterfaceEmployeeRepository
 }
 
 var _ definition.InterfaceEmployeeService = (*service)(nil)
 
-func NewEmployeeService(repository repository.InterfaceEmployeeRepository) *service {
+func NewEmployeeService(
+	employeeRepository repository.InterfaceEmployeeRepository,
+) *service {
 	return &service{
-		repository: repository,
+		employeeRepository: employeeRepository,
 	}
 }
 
 func (s *service) GetEmployee() (*dto.EmployeeDto, error) {
-	employeeDto, err := s.repository.GetEmployee()
+	employeeDto, err := s.employeeRepository.GetEmployee()
 
 	if err != nil {
 		return nil, err

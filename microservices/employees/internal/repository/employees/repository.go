@@ -12,21 +12,27 @@ import (
 )
 
 type repository struct {
-	converter converter.InterfaceEmployeeConverter
-	database  storage.DatabaseInterface
-	rwmutex   sync.RWMutex
+	employeeConverter converter.InterfaceEmployeeConverter
+	database          storage.DatabaseInterface
+	rwmutex           sync.RWMutex
 }
 
 var _ definition.InterfaceEmployeeRepository = (*repository)(nil)
 
-func NewEmployeeRepository(converter converter.InterfaceEmployeeConverter, database storage.DatabaseInterface) *repository {
+func NewEmployeeRepository(
+	employeeConverter converter.InterfaceEmployeeConverter,
+	database storage.DatabaseInterface,
+) *repository {
 	return &repository{
-		converter: converter,
-		database:  database,
+		employeeConverter: employeeConverter,
+		database:          database,
+		rwmutex:           sync.RWMutex{},
 	}
 }
 
-func (r *repository) GetEmployeeById(employeeId string) (*dto.EmployeeDto, error) {
+func (r *repository) GetEmployeeById(
+	employeeId string,
+) (*dto.EmployeeDto, error) {
 	r.rwmutex.Lock()
 	defer r.rwmutex.Unlock()
 
@@ -38,12 +44,15 @@ func (r *repository) GetEmployeeById(employeeId string) (*dto.EmployeeDto, error
 		return nil, err
 	}
 
-	employeeDto := r.converter.MapEmployeeModelToEmployeeDto(employeeModel)
+	employeeDto := r.employeeConverter.MapEmployeeModelToEmployeeDto(employeeModel)
 
 	return employeeDto, nil
 }
 
-func getEmployee(pool *pgxpool.Pool, employeeId string) (*model.EmployeeModel, error) {
+func getEmployee(
+	pool *pgxpool.Pool,
+	employeeId string,
+) (*model.EmployeeModel, error) {
 	query := `
         SELECT
            	employee_id,         

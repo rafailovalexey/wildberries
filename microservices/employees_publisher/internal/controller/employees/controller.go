@@ -10,19 +10,24 @@ import (
 )
 
 type controller struct {
-	service service.InterfaceEmployeeService
+	employeeService service.InterfaceEmployeeService
 }
 
 var _ definition.InterfaceEmployeeController = (*controller)(nil)
 
-func NewEmployeeController(service service.InterfaceEmployeeService) *controller {
+func NewEmployeeController(
+	employeeService service.InterfaceEmployeeService,
+) *controller {
 	return &controller{
-		service: service,
+		employeeService: employeeService,
 	}
 }
 
-func (c *controller) PublishEmployee(sc stan.Conn, subject string) {
-	employeeDto, err := c.service.GetEmployee()
+func (c *controller) PublishEmployee(
+	sc stan.Conn,
+	subject string,
+) {
+	employeeDto, err := c.employeeService.GetEmployee()
 
 	if err != nil {
 		log.Fatalf("ошибка %v\n", err)

@@ -15,13 +15,17 @@ func NewEmployeeConverter() *converter {
 	return &converter{}
 }
 
-func (c *converter) MapGetEmployeeByIdRequestToGetEmployeeByIdDto(response *employees_v1.GetEmployeeByIdRequest) *dto.GetEmployeeByIdDto {
+func (c *converter) MapGetEmployeeByIdRequestToGetEmployeeByIdDto(
+	response *employees_v1.GetEmployeeByIdRequest,
+) *dto.GetEmployeeByIdDto {
 	return dto.NewGetEmployeeByIdDto(
 		response.GetEmployeeId(),
 	)
 }
 
-func (c *converter) MapEmployeeDtoToEmployeeResponse(dto *dto.EmployeeDto) *employees_v1.GetEmployeeByIdResponse {
+func (c *converter) MapEmployeeDtoToEmployeeResponse(
+	dto *dto.EmployeeDto,
+) *employees_v1.GetEmployeeByIdResponse {
 	return &employees_v1.GetEmployeeByIdResponse{
 		Employee: &employees_v1.Employee{
 			EmployeeId: dto.EmployeeId,
@@ -29,13 +33,17 @@ func (c *converter) MapEmployeeDtoToEmployeeResponse(dto *dto.EmployeeDto) *empl
 	}
 }
 
-func (c *converter) MapEmployeeDtoToEmployeeModel(dto *dto.EmployeeDto) *model.EmployeeModel {
+func (c *converter) MapEmployeeDtoToEmployeeModel(
+	dto *dto.EmployeeDto,
+) *model.EmployeeModel {
 	return model.NewEmployeeModel(
 		dto.EmployeeId,
 	)
 }
 
-func (c *converter) MapEmployeeModelToEmployeeDto(model *model.EmployeeModel) *dto.EmployeeDto {
+func (c *converter) MapEmployeeModelToEmployeeDto(
+	model *model.EmployeeModel,
+) *dto.EmployeeDto {
 	return dto.NewEmployeeDto(
 		model.EmployeeId,
 	)

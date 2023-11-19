@@ -2,7 +2,8 @@ package subscriber
 
 import (
 	"context"
-	"github.com/emptyhopes/employees/internal/provider"
+	natsSubscriber "github.com/emptyhopes/employees_subscriber/cmd/nats_subscriber"
+	"github.com/emptyhopes/employees_subscriber/internal/provider"
 	employeeProvider "github.com/emptyhopes/employees_subscriber/internal/provider/employees"
 	"github.com/joho/godotenv"
 )

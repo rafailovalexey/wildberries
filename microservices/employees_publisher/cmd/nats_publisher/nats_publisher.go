@@ -14,7 +14,7 @@ func Run(employeeController controller.InterfaceEmployeeController) {
 	defer sc.Close()
 
 	for {
-		employeeController.PublishEmployee(sc, "orders")
+		employeeController.PublishEmployee(sc, "create_employees")
 
 		time.Sleep(10 * time.Second)
 	}

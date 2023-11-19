@@ -9,14 +9,16 @@ import (
 )
 
 type repository struct {
-	converter converter.InterfaceEmployeeConverter
+	employeeConverter converter.InterfaceEmployeeConverter
 }
 
 var _ definition.InterfaceEmployeeRepository = (*repository)(nil)
 
-func NewEmployeeRepository(converter converter.InterfaceEmployeeConverter) *repository {
+func NewEmployeeRepository(
+	employeeConverter converter.InterfaceEmployeeConverter,
+) *repository {
 	return &repository{
-		converter: converter,
+		employeeConverter: employeeConverter,
 	}
 }
 
@@ -25,7 +27,7 @@ func (r *repository) GetEmployee() (*dto.EmployeeDto, error) {
 		uuid.New().String(),
 	)
 
-	employeeDto := r.converter.MapEmployeeModelToEmployeeDto(employeeModel)
+	employeeDto := r.employeeConverter.MapEmployeeModelToEmployeeDto(employeeModel)
 
 	return employeeDto, nil
 }
