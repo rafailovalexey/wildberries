@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+  employees:
+    container_name: "employees"
+    hostname: "employees"
+    restart: "always"
+    ports:
+      - "3000:3000"
+    networks:
+      - "network"
+    build:
+      context: "../microservices/employees"
+      dockerfile: "application.dockerfile"
+
+  employees-subscriber:
+    container_name: "employees_subscriber"
+    hostname: "employees_subscriber"
+    restart: "always"
+    networks:
+      - "network"
+    build:
+      context: "../microservices/employees_subscriber"
+      dockerfile: "subscriber.dockerfile"
+
+  employees-publisher:
+    container_name: "employees_publisher"
+    hostname: "employees_publisher"
+    restart: "always"
+    networks:
+      - "network"
+    build:
+      context: "../microservices/employees_publisher"
+      dockerfile: "publisher.dockerfile"
+
+networks:
+  network:
+    driver: "bridge"

@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package employees_v1;
+
+option go_package = "github.com/emptyhopes/employees/api/employees_v1";
+
+service EmployeesV1 {
+  rpc GetEmployeeById(GetEmployeeByIdRequest) returns (GetEmployeeByIdResponse);
+}
+
+message GetEmployeeByIdRequest {
+  string employee_id = 1;
+}
+
+message GetEmployeeByIdResponse {
+  Employee employee = 1;
+}
+
+message Employee {
+  string employee_id = 1;
+}
