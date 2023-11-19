@@ -9,6 +9,3 @@ build
 
 # Mocks
 *_mock.go
-
-# Packages
-go.sum
