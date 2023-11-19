@@ -30,6 +30,7 @@ func (p *provider) GetEmployeeController() controller.InterfaceEmployeeControlle
 	if p.employeeController == nil {
 		p.employeeController = employeeController.NewEmployeeController(
 			p.GetEmployeeService(),
+			p.GetEmployeeConverter(),
 		)
 	}
 
