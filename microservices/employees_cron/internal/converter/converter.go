@@ -8,6 +8,7 @@ import (
 type InterfaceEmployeeConverter interface {
 	MapEmployeeDtoToEmployeeModel(*dto.EmployeeDto) *model.EmployeeModel
 	MapEmployeesDtoToEmployeesModel(*dto.EmployeesDto) *model.EmployeesModel
+
 	MapEmployeeModelToEmployeeDto(*model.EmployeeModel) *dto.EmployeeDto
 	MapEmployeesModelToEmployeesDto(model *model.EmployeesModel) *dto.EmployeesDto
 }

@@ -65,6 +65,7 @@ func (c *converter) MapEmployeeDtoToEmployeeModel(
 ) *model.EmployeeModel {
 	return model.NewEmployeeModel(
 		dto.EmployeeId,
+		dto.Confirmation,
 		dto.Firstname,
 		dto.Lastname,
 		dto.Email,
@@ -84,6 +85,7 @@ func (c *converter) MapEmployeeModelToEmployeeDto(
 ) *dto.EmployeeDto {
 	return dto.NewEmployeeDto(
 		model.EmployeeId,
+		model.Confirmation,
 		model.Firstname,
 		model.Lastname,
 		model.Email,

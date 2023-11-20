@@ -19,20 +19,57 @@ func NewEmployeeConverter() *converter {
 func (c *converter) MapEmployeePayloadToEmployeeDto(payload *payload.EmployeePayload) *dto.EmployeeDto {
 	return dto.NewEmployeeDto(
 		uuid.New().String(),
-		payload.Test,
+		payload.Confirmation,
+		payload.Firstname,
+		payload.Lastname,
+		payload.Email,
+		payload.PhoneNumber,
+		payload.Address,
+		payload.Position,
+		payload.Department,
+		payload.DateOfBirth,
+		payload.HireDate,
+		payload.CreatedAt,
+		payload.UpdatedAt,
 	)
 }
 
-func (c *converter) MapEmployeeDtoToEmployeeModel(dto *dto.EmployeeDto) *model.EmployeeModel {
+func (c *converter) MapEmployeeDtoToEmployeeModel(
+	dto *dto.EmployeeDto,
+) *model.EmployeeModel {
 	return model.NewEmployeeModel(
 		dto.EmployeeId,
-		dto.Test,
+		dto.Confirmation,
+		dto.Firstname,
+		dto.Lastname,
+		dto.Email,
+		dto.PhoneNumber,
+		dto.Address,
+		dto.Position,
+		dto.Department,
+		dto.DateOfBirth,
+		dto.HireDate,
+		dto.CreatedAt,
+		dto.UpdatedAt,
 	)
 }
 
-func (c *converter) MapEmployeeModelToEmployeeDto(model *model.EmployeeModel) *dto.EmployeeDto {
+func (c *converter) MapEmployeeModelToEmployeeDto(
+	model *model.EmployeeModel,
+) *dto.EmployeeDto {
 	return dto.NewEmployeeDto(
 		model.EmployeeId,
-		model.Test,
+		model.Confirmation,
+		model.Firstname,
+		model.Lastname,
+		model.Email,
+		model.PhoneNumber,
+		model.Address,
+		model.Position,
+		model.Department,
+		model.DateOfBirth,
+		model.HireDate,
+		model.CreatedAt,
+		model.UpdatedAt,
 	)
 }

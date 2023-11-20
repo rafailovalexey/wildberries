@@ -56,12 +56,34 @@ func insertEmployee(
 ) error {
 	query := `
         INSERT INTO employees (
-        	employee_id,
-            test
+			employee_id,
+			confirmation,
+			firstname,
+			lastname,
+			email,
+			phone_number,
+			address,
+			position,
+			department,
+			date_of_birth,
+			hire_date,
+			created_at,
+			updated_at
         )
         VALUES (
         	$1,
-            $2
+            $2,
+            $3,
+            $4,
+            $5,
+            $6,
+            $7,
+            $8,
+            $9,
+            $10,
+            $11,
+            $12,
+            $13
         );
     `
 
@@ -69,7 +91,7 @@ func insertEmployee(
 		context.Background(),
 		query,
 		model.EmployeeId,
-		model.Test,
+		model,
 	)
 
 	if err != nil {

@@ -22,19 +22,22 @@ type CreateEmployeeDto struct {
 }
 
 type EmployeeDto struct {
-	EmployeeId  string
-	Firstname   string
-	Lastname    string
-	Email       string
-	PhoneNumber string
-	Address     string
-	Position    string
-	Department  string
-	DateOfBirth time.Time
-	HireDate    time.Time
-	CreatedAt   time.Time
-	UpdatedAt   time.Time
+	EmployeeId   string
+	Confirmation bool
+	Firstname    string
+	Lastname     string
+	Email        string
+	PhoneNumber  string
+	Address      string
+	Position     string
+	Department   string
+	DateOfBirth  time.Time
+	HireDate     time.Time
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
 }
+
+type EmployeesDto = []EmployeeDto
 
 func NewGetEmployeeByIdDto(
 	employeeId string,
@@ -70,6 +73,7 @@ func NewCreateEmployeeDto(
 
 func NewEmployeeDto(
 	employeeId string,
+	confirmation bool,
 	firstname string,
 	lastname string,
 	email string,
@@ -83,17 +87,18 @@ func NewEmployeeDto(
 	updatedAt time.Time,
 ) *EmployeeDto {
 	return &EmployeeDto{
-		EmployeeId:  employeeId,
-		Firstname:   firstname,
-		Lastname:    lastname,
-		Email:       email,
-		PhoneNumber: phoneNumber,
-		Address:     address,
-		Position:    position,
-		Department:  department,
-		DateOfBirth: dateOfBirth,
-		HireDate:    hireDate,
-		CreatedAt:   createdAt,
-		UpdatedAt:   updatedAt,
+		EmployeeId:   employeeId,
+		Confirmation: confirmation,
+		Firstname:    firstname,
+		Lastname:     lastname,
+		Email:        email,
+		PhoneNumber:  phoneNumber,
+		Address:      address,
+		Position:     position,
+		Department:   department,
+		DateOfBirth:  dateOfBirth,
+		HireDate:     hireDate,
+		CreatedAt:    createdAt,
+		UpdatedAt:    updatedAt,
 	}
 }
