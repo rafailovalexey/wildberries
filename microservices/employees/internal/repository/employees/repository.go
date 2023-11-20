@@ -55,8 +55,19 @@ func getEmployee(
 ) (*model.EmployeeModel, error) {
 	query := `
         SELECT
-           	employee_id,
-           	test
+			employee_id,
+			confirmation,
+			firstname,
+			lastname,
+			email,
+			phone_number,
+			address,
+			position,
+			department,
+			date_of_birth,
+			hire_date,
+			created_at,
+			updated_at
         FROM employees
         WHERE employee_id = $1
     `
@@ -69,7 +80,18 @@ func getEmployee(
 		employeeId,
 	).Scan(
 		&employee.EmployeeId,
-		&employee.Test,
+		&employee.Confirmation,
+		&employee.Firstname,
+		&employee.Lastname,
+		&employee.Email,
+		&employee.PhoneNumber,
+		&employee.Address,
+		&employee.Position,
+		&employee.Department,
+		&employee.DateOfBirth,
+		&employee.HireDate,
+		&employee.CreatedAt,
+		&employee.UpdatedAt,
 	)
 
 	if err != nil {

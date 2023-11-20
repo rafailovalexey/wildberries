@@ -1,7 +1,6 @@
 package cron_scheduler
 
 import (
-	"fmt"
 	"github.com/emptyhopes/employees_cron/internal/service"
 	"github.com/robfig/cron/v3"
 	"log"
@@ -14,7 +13,6 @@ func Run(service service.InterfaceEmployeeService) {
 	c := cron.New()
 
 	_, err := c.AddFunc("*/1 * * * *", func() {
-		fmt.Println("This job runs every minute.")
 		service.UpdateEmployeeWithoutConfirmation()
 	})
 
@@ -23,6 +21,8 @@ func Run(service service.InterfaceEmployeeService) {
 
 		return
 	}
+
+	log.Printf("cron запустился")
 
 	c.Start()
 	defer c.Stop()

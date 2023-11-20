@@ -73,9 +73,19 @@ func getEmployeesWithoutConfirmation(pool *pgxpool.Pool, confirmation bool) (*mo
 
 	query := `
         SELECT
-            employee_id,
-            test,
-            confirmation
+			employee_id,
+			confirmation,
+			firstname,
+			lastname,
+			email,
+			phone_number,
+			address,
+			position,
+			department,
+			date_of_birth,
+			hire_date,
+			created_at,
+			updated_at
         FROM employees WHERE confirmation = $1
         LIMIT $2
     `
@@ -100,8 +110,18 @@ func getEmployeesWithoutConfirmation(pool *pgxpool.Pool, confirmation bool) (*mo
 
 		err = rows.Scan(
 			&item.EmployeeId,
-			&item.Test,
 			&item.Confirmation,
+			&item.Firstname,
+			&item.Lastname,
+			&item.Email,
+			&item.PhoneNumber,
+			&item.Address,
+			&item.Position,
+			&item.Department,
+			&item.DateOfBirth,
+			&item.HireDate,
+			&item.CreatedAt,
+			&item.UpdatedAt,
 		)
 
 		if err != nil {
