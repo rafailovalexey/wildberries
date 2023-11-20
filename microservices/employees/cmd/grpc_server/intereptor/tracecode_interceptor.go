@@ -16,19 +16,19 @@ func TracecodeInterceptor() grpc.UnaryServerInterceptor {
 		md, isExist := metadata.FromIncomingContext(ctx)
 
 		if !isExist {
-			log.Printf("TracecodeInterceptor: Metadata not found in the request context")
+			log.Printf("TracecodeInterceptor: metadata not found in the request context")
 
-			return nil, status.Errorf(codes.Internal, "Failed to read metadata")
+			return nil, status.Errorf(codes.Internal, "failed to read metadata")
 		}
 
 		if len(md["tracecode"]) != 0 {
 			return handler(ctx, request)
 		}
 
-		tracecode, err := GenerateTracecode()
+		tracecode, err := generateTracecode()
 
 		if err != nil {
-			return nil, status.Errorf(codes.Internal, "Failed to generate tracecode")
+			return nil, status.Errorf(codes.Internal, "failed to generate tracecode")
 		}
 
 		md = metadata.Join(md, metadata.New(map[string]string{"tracecode": tracecode}))
@@ -38,7 +38,7 @@ func TracecodeInterceptor() grpc.UnaryServerInterceptor {
 	}
 }
 
-func GenerateTracecode() (string, error) {
+func generateTracecode() (string, error) {
 	tracecode := make([]byte, 16)
 
 	if _, err := rand.Read(tracecode); err != nil {

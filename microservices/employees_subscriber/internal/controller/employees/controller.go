@@ -2,12 +2,12 @@ package employees
 
 import (
 	"encoding/json"
-	"fmt"
 	definition "github.com/emptyhopes/employees_subscriber/internal/controller"
 	"github.com/emptyhopes/employees_subscriber/internal/converter"
 	payload "github.com/emptyhopes/employees_subscriber/internal/payload/employees"
 	"github.com/emptyhopes/employees_subscriber/internal/service"
 	"github.com/nats-io/stan.go"
+	"log"
 )
 
 type controller struct {
@@ -35,7 +35,7 @@ func (c *controller) CreateEmployee(
 	err := json.Unmarshal(message.Data, &employeePayload)
 
 	if err != nil {
-		fmt.Printf("произошла ошибка парсинга %v\n", err)
+		log.Printf("произошла ошибка парсинга %v\n", err)
 
 		return
 	}
@@ -45,10 +45,10 @@ func (c *controller) CreateEmployee(
 	err = c.employeeService.CreateEmployee(employeeDto)
 
 	if err != nil {
-		fmt.Printf("произошла ошибка при создание сотрудника %v\n", err)
+		log.Printf("произошла ошибка при создание сотрудника %v\n", err)
 
 		return
 	}
 
-	fmt.Printf("сотрудник успешно создан с employee_id: %s\n", employeeDto.EmployeeId)
+	log.Printf("сотрудник успешно создан с employee_id: %s\n", employeeDto.EmployeeId)
 }

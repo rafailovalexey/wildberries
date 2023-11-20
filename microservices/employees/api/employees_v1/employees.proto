@@ -9,7 +9,7 @@ option go_package = "github.com/emptyhopes/employees/api/employees_v1";
 
 service EmployeesV1 {
   rpc GetEmployeeById(GetEmployeeByIdRequest) returns (GetEmployeeByIdResponse);
-  rpc CreateEmployee(CreateEmployeeRequest) returns (google.protobuf.Empty);
+  rpc CreateEmployee(CreateEmployeeRequest) returns (ResultResponse);
 }
 
 message GetEmployeeByIdRequest {
@@ -47,3 +47,8 @@ message Employee {
   google.protobuf.Timestamp created_at = 12;
   google.protobuf.Timestamp updated_at = 13;
 }
+
+message ResultResponse {
+  bool result = 1;
+}
+

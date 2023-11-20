@@ -10,24 +10,24 @@ import (
 	"os"
 )
 
-func AuthenticationTokenInterceptor() grpc.UnaryServerInterceptor {
+func AuthenticationTokenMiddleware() grpc.UnaryServerInterceptor {
 	return func(ctx context.Context, request interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (interface{}, error) {
 		md, isExist := metadata.FromIncomingContext(ctx)
 
 		if !isExist {
-			return nil, status.Errorf(codes.Unauthenticated, "Authentication token not found")
+			return nil, status.Errorf(codes.Unauthenticated, "authentication token not found")
 		}
 
 		header := os.Getenv("AUTHENTICATION_TOKEN_HEADER")
 
 		if header == "" {
-			log.Fatalf("Not found authentication token header in environment")
+			log.Fatalf("not found authentication token header in environment")
 		}
 
 		list := md[header]
 
 		if len(list) == 0 {
-			return nil, status.Errorf(codes.Unauthenticated, "Authentication token not found")
+			return nil, status.Errorf(codes.Unauthenticated, "authentication token not found")
 		}
 
 		key := list[0]
@@ -35,13 +35,13 @@ func AuthenticationTokenInterceptor() grpc.UnaryServerInterceptor {
 		token := os.Getenv("AUTHENTICATION_TOKEN")
 
 		if token == "" {
-			log.Fatalf("Not found authentication token in environment")
+			log.Fatalf("not found authentication token in environment")
 		}
 
 		if token != key {
-			log.Printf("Invalid authentication token: %s", key)
+			log.Printf("invalid authentication token: %s", key)
 
-			return nil, status.Errorf(codes.PermissionDenied, "Invalid authentication token")
+			return nil, status.Errorf(codes.PermissionDenied, "invalid authentication token")
 		}
 
 		return handler(ctx, request)

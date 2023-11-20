@@ -14,21 +14,21 @@ func LoggingInterceptor() grpc.UnaryServerInterceptor {
 		md, isExist := metadata.FromIncomingContext(ctx)
 
 		if !isExist {
-			return nil, status.Errorf(codes.Internal, "Failed to read metadata")
+			return nil, status.Errorf(codes.Internal, "failed to read metadata")
 		}
 
 		tracecode := md["tracecode"][0]
 
-		log.Printf("Incoming GRPC request: %s (%s)", info.FullMethod, tracecode)
+		log.Printf("incoming GRPC request: %s (%s)", info.FullMethod, tracecode)
 
 		response, err := handler(ctx, request)
 
 		if err != nil {
-			log.Printf("Error in GRPC request: %s (%s) \n %v", info.FullMethod, tracecode, err)
+			log.Printf("error in GRPC request: %s (%s) \n %v", info.FullMethod, tracecode, err)
 		}
 
 		if err == nil {
-			log.Printf("Outgoing GRPC response: %s (%s)", info.FullMethod, tracecode)
+			log.Printf("outgoing GRPC response: %s (%s)", info.FullMethod, tracecode)
 		}
 
 		return response, err

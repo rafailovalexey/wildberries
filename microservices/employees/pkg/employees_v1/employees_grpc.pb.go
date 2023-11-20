@@ -11,7 +11,6 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -24,7 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type EmployeesV1Client interface {
 	GetEmployeeById(ctx context.Context, in *GetEmployeeByIdRequest, opts ...grpc.CallOption) (*GetEmployeeByIdResponse, error)
-	CreateEmployee(ctx context.Context, in *CreateEmployeeRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	CreateEmployee(ctx context.Context, in *CreateEmployeeRequest, opts ...grpc.CallOption) (*ResultResponse, error)
 }
 
 type employeesV1Client struct {
@@ -44,8 +43,8 @@ func (c *employeesV1Client) GetEmployeeById(ctx context.Context, in *GetEmployee
 	return out, nil
 }
 
-func (c *employeesV1Client) CreateEmployee(ctx context.Context, in *CreateEmployeeRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	out := new(emptypb.Empty)
+func (c *employeesV1Client) CreateEmployee(ctx context.Context, in *CreateEmployeeRequest, opts ...grpc.CallOption) (*ResultResponse, error) {
+	out := new(ResultResponse)
 	err := c.cc.Invoke(ctx, "/employees_v1.EmployeesV1/CreateEmployee", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -58,7 +57,7 @@ func (c *employeesV1Client) CreateEmployee(ctx context.Context, in *CreateEmploy
 // for forward compatibility
 type EmployeesV1Server interface {
 	GetEmployeeById(context.Context, *GetEmployeeByIdRequest) (*GetEmployeeByIdResponse, error)
-	CreateEmployee(context.Context, *CreateEmployeeRequest) (*emptypb.Empty, error)
+	CreateEmployee(context.Context, *CreateEmployeeRequest) (*ResultResponse, error)
 	mustEmbedUnimplementedEmployeesV1Server()
 }
 
@@ -69,7 +68,7 @@ type UnimplementedEmployeesV1Server struct {
 func (UnimplementedEmployeesV1Server) GetEmployeeById(context.Context, *GetEmployeeByIdRequest) (*GetEmployeeByIdResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetEmployeeById not implemented")
 }
-func (UnimplementedEmployeesV1Server) CreateEmployee(context.Context, *CreateEmployeeRequest) (*emptypb.Empty, error) {
+func (UnimplementedEmployeesV1Server) CreateEmployee(context.Context, *CreateEmployeeRequest) (*ResultResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateEmployee not implemented")
 }
 func (UnimplementedEmployeesV1Server) mustEmbedUnimplementedEmployeesV1Server() {}

@@ -5,7 +5,8 @@ import (
 	"github.com/emptyhopes/employees/internal/converter"
 	"github.com/emptyhopes/employees/internal/service"
 	"github.com/emptyhopes/employees/pkg/employees_v1"
-	"google.golang.org/protobuf/types/known/emptypb"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 type ImplementationEmployee struct {
@@ -44,16 +45,16 @@ func (i *ImplementationEmployee) GetEmployeeById(
 func (i *ImplementationEmployee) CreateEmployee(
 	_ context.Context,
 	request *employees_v1.CreateEmployeeRequest,
-) (*emptypb.Empty, error) {
+) (*employees_v1.ResultResponse, error) {
 	createEmployeeDto := i.employeeConverter.MapCreateEmployeeRequestToCreateEmployeeDto(request)
 
 	err := i.employeeService.CreateEmployee(createEmployeeDto)
 
 	if err != nil {
-		return nil, err
+		return nil, status.Errorf(codes.InvalidArgument, err.Error())
 	}
 
-	return &emptypb.Empty{}, nil
+	return &employees_v1.ResultResponse{Result: true}, nil
 }
 
 func (i *ImplementationEmployee) mustEmbedUnimplementedEmployeesV1Server() {
