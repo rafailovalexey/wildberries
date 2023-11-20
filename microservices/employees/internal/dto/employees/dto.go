@@ -1,16 +1,39 @@
 package employees
 
+import (
+	"google.golang.org/protobuf/types/known/timestamppb"
+	"time"
+)
+
 type GetEmployeeByIdDto struct {
 	EmployeeId string
 }
 
 type CreateEmployeeDto struct {
-	Test string
+	Firstname   string
+	Lastname    string
+	Email       string
+	PhoneNumber string
+	Address     string
+	Position    string
+	Department  string
+	DateOfBirth *timestamppb.Timestamp
+	HireDate    *timestamppb.Timestamp
 }
 
 type EmployeeDto struct {
-	EmployeeId string
-	Test       string
+	EmployeeId  string
+	Firstname   string
+	Lastname    string
+	Email       string
+	PhoneNumber string
+	Address     string
+	Position    string
+	Department  string
+	DateOfBirth time.Time
+	HireDate    time.Time
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
 }
 
 func NewGetEmployeeByIdDto(
@@ -22,19 +45,55 @@ func NewGetEmployeeByIdDto(
 }
 
 func NewCreateEmployeeDto(
-	test string,
+	firstname string,
+	lastname string,
+	email string,
+	phoneNumber string,
+	address string,
+	position string,
+	department string,
+	dateOfBirth *timestamppb.Timestamp,
+	hireDate *timestamppb.Timestamp,
 ) *CreateEmployeeDto {
 	return &CreateEmployeeDto{
-		Test: test,
+		Firstname:   firstname,
+		Lastname:    lastname,
+		Email:       email,
+		PhoneNumber: phoneNumber,
+		Address:     address,
+		Position:    position,
+		Department:  department,
+		DateOfBirth: dateOfBirth,
+		HireDate:    hireDate,
 	}
 }
 
 func NewEmployeeDto(
 	employeeId string,
-	test string,
+	firstname string,
+	lastname string,
+	email string,
+	phoneNumber string,
+	address string,
+	position string,
+	department string,
+	dateOfBirth time.Time,
+	hireDate time.Time,
+	createdAt time.Time,
+	updatedAt time.Time,
 ) *EmployeeDto {
 	return &EmployeeDto{
-		EmployeeId: employeeId,
-		Test:       test,
+		EmployeeId:  employeeId,
+		Firstname:   firstname,
+		Lastname:    lastname,
+		Email:       email,
+		PhoneNumber: phoneNumber,
+		Address:     address,
+		Position:    position,
+		Department:  department,
+		DateOfBirth: dateOfBirth,
+		HireDate:    hireDate,
+		CreatedAt:   createdAt,
+		UpdatedAt:   updatedAt,
 	}
 }

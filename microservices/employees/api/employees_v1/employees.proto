@@ -3,6 +3,7 @@ syntax = "proto3";
 package employees_v1;
 
 import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/emptyhopes/employees/api/employees_v1";
 
@@ -20,10 +21,29 @@ message GetEmployeeByIdResponse {
 }
 
 message CreateEmployeeRequest {
-  string test = 1;
+  string firstname = 3;
+  string lastname = 4;
+  string email = 5;
+  string phone_number = 6;
+  string address = 7;
+  string position = 8;
+  string department = 9;
+  google.protobuf.Timestamp date_of_birth = 10;
+  google.protobuf.Timestamp hire_date = 11;
 }
 
 message Employee {
   string employee_id = 1;
-  string test = 2;
+  bool confirmation = 2;
+  string firstname = 3;
+  string lastname = 4;
+  string email = 5;
+  string phone_number = 6;
+  string address = 7;
+  string position = 8;
+  string department = 9;
+  google.protobuf.Timestamp date_of_birth = 10;
+  google.protobuf.Timestamp hire_date = 11;
+  google.protobuf.Timestamp created_at = 12;
+  google.protobuf.Timestamp updated_at = 13;
 }

@@ -91,7 +91,18 @@ func createEmployeeTable(pool *pgxpool.Pool) {
 	query := `
 		CREATE TABLE IF NOT EXISTS employees (
 			employee_id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-		    test VARCHAR(255)
+			confirmation BOOL,
+			firstname VARCHAR(255),
+			lastname VARCHAR(255),
+			email VARCHAR(255),
+			phone_number VARCHAR(255),
+			address VARCHAR(255),
+			position VARCHAR(255),
+			department VARCHAR(255),
+			date_of_birth TIMESTAMP,
+			hire_date TIMESTAMP,
+			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+			updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 		);
 	`
 

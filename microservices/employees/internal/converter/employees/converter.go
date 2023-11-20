@@ -5,6 +5,7 @@ import (
 	dto "github.com/emptyhopes/employees/internal/dto/employees"
 	model "github.com/emptyhopes/employees/internal/model/employees"
 	"github.com/emptyhopes/employees/pkg/employees_v1"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type converter struct{}
@@ -25,7 +26,15 @@ func (c *converter) MapGetEmployeeByIdRequestToGetEmployeeByIdDto(
 
 func (c *converter) MapCreateEmployeeRequestToCreateEmployeeDto(request *employees_v1.CreateEmployeeRequest) *dto.CreateEmployeeDto {
 	return dto.NewCreateEmployeeDto(
-		request.GetTest(),
+		request.GetFirstname(),
+		request.GetLastname(),
+		request.GetEmail(),
+		request.GetPhoneNumber(),
+		request.GetAddress(),
+		request.GetPosition(),
+		request.GetDepartment(),
+		request.GetDateOfBirth(),
+		request.GetHireDate(),
 	)
 }
 
@@ -34,8 +43,19 @@ func (c *converter) MapEmployeeDtoToEmployeeResponse(
 ) *employees_v1.GetEmployeeByIdResponse {
 	return &employees_v1.GetEmployeeByIdResponse{
 		Employee: &employees_v1.Employee{
-			EmployeeId: dto.EmployeeId,
-			Test:       dto.Test,
+			EmployeeId:   dto.EmployeeId,
+			Confirmation: false,
+			Firstname:    dto.Firstname,
+			Lastname:     dto.Lastname,
+			Email:        dto.Email,
+			PhoneNumber:  dto.PhoneNumber,
+			Address:      dto.Address,
+			Position:     dto.Position,
+			Department:   dto.Department,
+			DateOfBirth:  timestamppb.New(dto.DateOfBirth),
+			HireDate:     timestamppb.New(dto.HireDate),
+			CreatedAt:    timestamppb.New(dto.CreatedAt),
+			UpdatedAt:    timestamppb.New(dto.UpdatedAt),
 		},
 	}
 }
@@ -45,7 +65,17 @@ func (c *converter) MapEmployeeDtoToEmployeeModel(
 ) *model.EmployeeModel {
 	return model.NewEmployeeModel(
 		dto.EmployeeId,
-		dto.Test,
+		dto.Firstname,
+		dto.Lastname,
+		dto.Email,
+		dto.PhoneNumber,
+		dto.Address,
+		dto.Position,
+		dto.Department,
+		dto.DateOfBirth,
+		dto.HireDate,
+		dto.CreatedAt,
+		dto.UpdatedAt,
 	)
 }
 
@@ -54,6 +84,16 @@ func (c *converter) MapEmployeeModelToEmployeeDto(
 ) *dto.EmployeeDto {
 	return dto.NewEmployeeDto(
 		model.EmployeeId,
-		model.Test,
+		model.Firstname,
+		model.Lastname,
+		model.Email,
+		model.PhoneNumber,
+		model.Address,
+		model.Position,
+		model.Department,
+		model.DateOfBirth,
+		model.HireDate,
+		model.CreatedAt,
+		model.UpdatedAt,
 	)
 }
