@@ -37,9 +37,7 @@ func (r *repository) GetEmployeesWithoutConfirmation() (*dto.EmployeesDto, error
 	pool := r.database.GetPool()
 	defer pool.Close()
 
-	confirmation := false
-
-	employeesWithoutConfirmationModel, err := getEmployeesWithoutConfirmation(pool, confirmation)
+	employeesWithoutConfirmationModel, err := getEmployeesWithoutConfirmation(pool)
 
 	if err != nil {
 		return nil, err
@@ -59,7 +57,7 @@ func (r *repository) UpdateEmployeeConfirmation(employeeDto *dto.EmployeeDto) er
 
 	employeeModel := r.employeeConverter.MapEmployeeDtoToEmployeeModel(employeeDto)
 
-	err := updateEmployeeConfirmation(pool, employeeModel.EmployeeId, employeeModel.Confirmation)
+	err := updateEmployeeConfirmation(pool, employeeModel)
 
 	if err != nil {
 		return err
@@ -68,8 +66,9 @@ func (r *repository) UpdateEmployeeConfirmation(employeeDto *dto.EmployeeDto) er
 	return nil
 }
 
-func getEmployeesWithoutConfirmation(pool *pgxpool.Pool, confirmation bool) (*model.EmployeesModel, error) {
+func getEmployeesWithoutConfirmation(pool *pgxpool.Pool) (*model.EmployeesModel, error) {
 	limit := 10
+	confirmation := false
 
 	query := `
         SELECT
@@ -136,8 +135,7 @@ func getEmployeesWithoutConfirmation(pool *pgxpool.Pool, confirmation bool) (*mo
 
 func updateEmployeeConfirmation(
 	pool *pgxpool.Pool,
-	employeeId string,
-	confirmation bool,
+	employeeModel *model.EmployeeModel,
 ) error {
 	query := `
         UPDATE employees 
@@ -148,8 +146,8 @@ func updateEmployeeConfirmation(
 	_, err := pool.Exec(
 		context.Background(),
 		query,
-		employeeId,
-		confirmation,
+		true,
+		employeeModel.EmployeeId,
 	)
 
 	if err != nil {

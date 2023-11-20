@@ -2,7 +2,6 @@ package employees
 
 import (
 	"context"
-	"fmt"
 	"github.com/emptyhopes/employees/internal/converter"
 	"github.com/emptyhopes/employees/internal/service"
 	"github.com/emptyhopes/employees/pkg/employees_v1"
@@ -47,8 +46,6 @@ func (i *ImplementationEmployee) CreateEmployee(
 	request *employees_v1.CreateEmployeeRequest,
 ) (*emptypb.Empty, error) {
 	createEmployeeDto := i.employeeConverter.MapCreateEmployeeRequestToCreateEmployeeDto(request)
-
-	fmt.Println(createEmployeeDto)
 
 	err := i.employeeService.CreateEmployee(createEmployeeDto)
 
