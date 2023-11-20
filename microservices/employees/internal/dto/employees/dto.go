@@ -1,7 +1,6 @@
 package employees
 
 import (
-	"google.golang.org/protobuf/types/known/timestamppb"
 	"time"
 )
 
@@ -17,8 +16,8 @@ type CreateEmployeeDto struct {
 	Address     string
 	Position    string
 	Department  string
-	DateOfBirth *timestamppb.Timestamp
-	HireDate    *timestamppb.Timestamp
+	DateOfBirth time.Time
+	HireDate    time.Time
 }
 
 type EmployeeDto struct {
@@ -55,8 +54,8 @@ func NewCreateEmployeeDto(
 	address string,
 	position string,
 	department string,
-	dateOfBirth *timestamppb.Timestamp,
-	hireDate *timestamppb.Timestamp,
+	dateOfBirth time.Time,
+	hireDate time.Time,
 ) *CreateEmployeeDto {
 	return &CreateEmployeeDto{
 		Firstname:   firstname,

@@ -91,7 +91,18 @@ func insertEmployee(
 		context.Background(),
 		query,
 		model.EmployeeId,
-		model,
+		model.Confirmation,
+		model.Firstname,
+		model.Lastname,
+		model.Email,
+		model.PhoneNumber,
+		model.Address,
+		model.Position,
+		model.Department,
+		model.DateOfBirth,
+		model.HireDate,
+		model.CreatedAt,
+		model.UpdatedAt,
 	)
 
 	if err != nil {

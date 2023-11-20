@@ -6,6 +6,7 @@ import (
 	model "github.com/emptyhopes/employees/internal/model/employees"
 	"github.com/emptyhopes/employees/pkg/employees_v1"
 	"google.golang.org/protobuf/types/known/timestamppb"
+	"time"
 )
 
 type converter struct{}
@@ -33,8 +34,8 @@ func (c *converter) MapCreateEmployeeRequestToCreateEmployeeDto(request *employe
 		request.GetAddress(),
 		request.GetPosition(),
 		request.GetDepartment(),
-		request.GetDateOfBirth(),
-		request.GetHireDate(),
+		time.Unix(request.GetDateOfBirth().GetSeconds(), 0),
+		time.Unix(request.GetHireDate().GetSeconds(), 0),
 	)
 }
 
