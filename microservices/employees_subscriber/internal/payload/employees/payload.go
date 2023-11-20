@@ -1,13 +1,13 @@
 package employees
 
 type EmployeePayload struct {
-	EmployeeId string
+	Test string
 }
 
 func NewEmployeePayload(
-	employeeId string,
+	test string,
 ) *EmployeePayload {
 	return &EmployeePayload{
-		EmployeeId: employeeId,
+		Test: test,
 	}
 }

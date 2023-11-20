@@ -11,6 +11,7 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -23,6 +24,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type EmployeesV1Client interface {
 	GetEmployeeById(ctx context.Context, in *GetEmployeeByIdRequest, opts ...grpc.CallOption) (*GetEmployeeByIdResponse, error)
+	CreateEmployee(ctx context.Context, in *CreateEmployeeRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type employeesV1Client struct {
@@ -42,11 +44,21 @@ func (c *employeesV1Client) GetEmployeeById(ctx context.Context, in *GetEmployee
 	return out, nil
 }
 
+func (c *employeesV1Client) CreateEmployee(ctx context.Context, in *CreateEmployeeRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/employees_v1.EmployeesV1/CreateEmployee", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // EmployeesV1Server is the server API for EmployeesV1 service.
 // All implementations must embed UnimplementedEmployeesV1Server
 // for forward compatibility
 type EmployeesV1Server interface {
 	GetEmployeeById(context.Context, *GetEmployeeByIdRequest) (*GetEmployeeByIdResponse, error)
+	CreateEmployee(context.Context, *CreateEmployeeRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedEmployeesV1Server()
 }
 
@@ -56,6 +68,9 @@ type UnimplementedEmployeesV1Server struct {
 
 func (UnimplementedEmployeesV1Server) GetEmployeeById(context.Context, *GetEmployeeByIdRequest) (*GetEmployeeByIdResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetEmployeeById not implemented")
+}
+func (UnimplementedEmployeesV1Server) CreateEmployee(context.Context, *CreateEmployeeRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateEmployee not implemented")
 }
 func (UnimplementedEmployeesV1Server) mustEmbedUnimplementedEmployeesV1Server() {}
 
@@ -88,6 +103,24 @@ func _EmployeesV1_GetEmployeeById_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _EmployeesV1_CreateEmployee_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateEmployeeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EmployeesV1Server).CreateEmployee(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/employees_v1.EmployeesV1/CreateEmployee",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EmployeesV1Server).CreateEmployee(ctx, req.(*CreateEmployeeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // EmployeesV1_ServiceDesc is the grpc.ServiceDesc for EmployeesV1 service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -98,6 +131,10 @@ var EmployeesV1_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetEmployeeById",
 			Handler:    _EmployeesV1_GetEmployeeById_Handler,
+		},
+		{
+			MethodName: "CreateEmployee",
+			Handler:    _EmployeesV1_CreateEmployee_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -8,17 +8,16 @@ import (
 	"os"
 )
 
-type DatabaseInterface interface {
+type InterfaceDatabase interface {
 	Initialize()
 	GetPool() *pgxpool.Pool
-	CreateTables(*pgxpool.Pool)
 }
 
 type database struct {
 	credentials string
 }
 
-var _ DatabaseInterface = (*database)(nil)
+var _ InterfaceDatabase = (*database)(nil)
 
 func NewDatabase() *database {
 	db := &database{}
@@ -27,8 +26,6 @@ func NewDatabase() *database {
 
 	pool := db.GetPool()
 	defer pool.Close()
-
-	db.CreateTables(pool)
 
 	return db
 }
@@ -81,22 +78,4 @@ func (d *database) GetPool() *pgxpool.Pool {
 	}
 
 	return pool
-}
-
-func (d *database) CreateTables(pool *pgxpool.Pool) {
-	createEmployeeTable(pool)
-}
-
-func createEmployeeTable(pool *pgxpool.Pool) {
-	query := `
-		CREATE TABLE IF NOT EXISTS employees (
-			employee_id UUID DEFAULT gen_random_uuid() PRIMARY KEY
-		);
-	`
-
-	_, err := pool.Exec(context.Background(), query)
-
-	if err != nil {
-		log.Fatalf("ошибка создания таблицы: %v\n", err)
-	}
 }

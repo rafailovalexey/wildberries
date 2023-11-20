@@ -8,7 +8,7 @@ import (
 	"os"
 )
 
-type DatabaseInterface interface {
+type InterfaceDatabase interface {
 	Initialize()
 	GetPool() *pgxpool.Pool
 	CreateTables(*pgxpool.Pool)
@@ -18,7 +18,7 @@ type database struct {
 	credentials string
 }
 
-var _ DatabaseInterface = (*database)(nil)
+var _ InterfaceDatabase = (*database)(nil)
 
 func NewDatabase() *database {
 	db := &database{}
@@ -90,7 +90,8 @@ func (d *database) CreateTables(pool *pgxpool.Pool) {
 func createEmployeeTable(pool *pgxpool.Pool) {
 	query := `
 		CREATE TABLE IF NOT EXISTS employees (
-			employee_id UUID DEFAULT gen_random_uuid() PRIMARY KEY
+			employee_id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+		    test VARCHAR(255)
 		);
 	`
 

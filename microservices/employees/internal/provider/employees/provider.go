@@ -40,6 +40,7 @@ func (p *provider) GetEmployeeService() service.InterfaceEmployeeService {
 	if p.employeeService == nil {
 		p.employeeService = employeeService.NewEmployeeService(
 			p.GetEmployeeRepository(),
+			storage.NewNatsPublisher(),
 		)
 	}
 

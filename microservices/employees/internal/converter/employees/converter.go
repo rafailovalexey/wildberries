@@ -23,6 +23,12 @@ func (c *converter) MapGetEmployeeByIdRequestToGetEmployeeByIdDto(
 	)
 }
 
+func (c *converter) MapCreateEmployeeRequestToCreateEmployeeDto(request *employees_v1.CreateEmployeeRequest) *dto.CreateEmployeeDto {
+	return dto.NewCreateEmployeeDto(
+		request.GetTest(),
+	)
+}
+
 func (c *converter) MapEmployeeDtoToEmployeeResponse(
 	dto *dto.EmployeeDto,
 ) *employees_v1.GetEmployeeByIdResponse {
@@ -38,6 +44,7 @@ func (c *converter) MapEmployeeDtoToEmployeeModel(
 ) *model.EmployeeModel {
 	return model.NewEmployeeModel(
 		dto.EmployeeId,
+		dto.Test,
 	)
 }
 
@@ -46,5 +53,6 @@ func (c *converter) MapEmployeeModelToEmployeeDto(
 ) *dto.EmployeeDto {
 	return dto.NewEmployeeDto(
 		model.EmployeeId,
+		model.Test,
 	)
 }

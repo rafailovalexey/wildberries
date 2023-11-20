@@ -13,7 +13,7 @@ import (
 
 type repository struct {
 	employeeConverter converter.InterfaceEmployeeConverter
-	database          storage.DatabaseInterface
+	database          storage.InterfaceDatabase
 	rwmutex           sync.RWMutex
 }
 
@@ -21,12 +21,11 @@ var _ definition.InterfaceEmployeeRepository = (*repository)(nil)
 
 func NewEmployeeRepository(
 	employeeConverter converter.InterfaceEmployeeConverter,
-	database storage.DatabaseInterface,
+	database storage.InterfaceDatabase,
 ) *repository {
 	return &repository{
 		employeeConverter: employeeConverter,
 		database:          database,
-		rwmutex:           sync.RWMutex{},
 	}
 }
 
@@ -56,10 +55,12 @@ func insertEmployee(
 ) error {
 	query := `
         INSERT INTO employees (
-        	employee_id
+        	employee_id,
+            test
         )
         VALUES (
-        	$1
+        	$1,
+            $2
         );
     `
 
@@ -67,6 +68,7 @@ func insertEmployee(
 		context.Background(),
 		query,
 		model.EmployeeId,
+		model.Test,
 	)
 
 	if err != nil {

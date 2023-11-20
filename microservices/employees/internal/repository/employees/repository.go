@@ -13,7 +13,7 @@ import (
 
 type repository struct {
 	employeeConverter converter.InterfaceEmployeeConverter
-	database          storage.DatabaseInterface
+	database          storage.InterfaceDatabase
 	rwmutex           sync.RWMutex
 }
 
@@ -21,7 +21,7 @@ var _ definition.InterfaceEmployeeRepository = (*repository)(nil)
 
 func NewEmployeeRepository(
 	employeeConverter converter.InterfaceEmployeeConverter,
-	database storage.DatabaseInterface,
+	database storage.InterfaceDatabase,
 ) *repository {
 	return &repository{
 		employeeConverter: employeeConverter,

@@ -5,33 +5,55 @@ import (
 	"github.com/emptyhopes/employees/internal/converter"
 	"github.com/emptyhopes/employees/internal/service"
 	"github.com/emptyhopes/employees/pkg/employees_v1"
+	"google.golang.org/protobuf/types/known/emptypb"
 )
 
 type ImplementationEmployee struct {
 	employees_v1.UnimplementedEmployeesV1Server
-	service   service.InterfaceEmployeeService
-	converter converter.InterfaceEmployeeConverter
+	employeeService   service.InterfaceEmployeeService
+	employeeConverter converter.InterfaceEmployeeConverter
 }
 
-func NewEmployeeImplementation(service service.InterfaceEmployeeService, converter converter.InterfaceEmployeeConverter) *ImplementationEmployee {
+func NewEmployeeImplementation(
+	employeeService service.InterfaceEmployeeService,
+	employeeConverter converter.InterfaceEmployeeConverter,
+) *ImplementationEmployee {
 	return &ImplementationEmployee{
-		service:   service,
-		converter: converter,
+		employeeService:   employeeService,
+		employeeConverter: employeeConverter,
 	}
 }
 
-func (i *ImplementationEmployee) GetEmployeeById(_ context.Context, request *employees_v1.GetEmployeeByIdRequest) (*employees_v1.GetEmployeeByIdResponse, error) {
-	getEmployeeByIdDto := i.converter.MapGetEmployeeByIdRequestToGetEmployeeByIdDto(request)
+func (i *ImplementationEmployee) GetEmployeeById(
+	_ context.Context,
+	request *employees_v1.GetEmployeeByIdRequest,
+) (*employees_v1.GetEmployeeByIdResponse, error) {
+	getEmployeeByIdDto := i.employeeConverter.MapGetEmployeeByIdRequestToGetEmployeeByIdDto(request)
 
-	employeeDto, err := i.service.GetEmployeeById(getEmployeeByIdDto)
+	employeeDto, err := i.employeeService.GetEmployeeById(getEmployeeByIdDto)
 
 	if err != nil {
 		return nil, err
 	}
 
-	getEmployeeByIdResponse := i.converter.MapEmployeeDtoToEmployeeResponse(employeeDto)
+	getEmployeeByIdResponse := i.employeeConverter.MapEmployeeDtoToEmployeeResponse(employeeDto)
 
 	return getEmployeeByIdResponse, nil
+}
+
+func (i *ImplementationEmployee) CreateEmployee(
+	_ context.Context,
+	request *employees_v1.CreateEmployeeRequest,
+) (*emptypb.Empty, error) {
+	createEmployeeDto := i.employeeConverter.MapCreateEmployeeRequestToCreateEmployeeDto(request)
+
+	err := i.employeeService.CreateEmployee(createEmployeeDto)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &emptypb.Empty{}, nil
 }
 
 func (i *ImplementationEmployee) mustEmbedUnimplementedEmployeesV1Server() {

@@ -2,10 +2,13 @@ syntax = "proto3";
 
 package employees_v1;
 
+import "google/protobuf/empty.proto";
+
 option go_package = "github.com/emptyhopes/employees/api/employees_v1";
 
 service EmployeesV1 {
   rpc GetEmployeeById(GetEmployeeByIdRequest) returns (GetEmployeeByIdResponse);
+  rpc CreateEmployee(CreateEmployeeRequest) returns (google.protobuf.Empty);
 }
 
 message GetEmployeeByIdRequest {
@@ -14,6 +17,10 @@ message GetEmployeeByIdRequest {
 
 message GetEmployeeByIdResponse {
   Employee employee = 1;
+}
+
+message CreateEmployeeRequest {
+  string test = 1;
 }
 
 message Employee {

@@ -8,6 +8,7 @@ import (
 
 type InterfaceEmployeeConverter interface {
 	MapGetEmployeeByIdRequestToGetEmployeeByIdDto(*employees_v1.GetEmployeeByIdRequest) *dto.GetEmployeeByIdDto
+	MapCreateEmployeeRequestToCreateEmployeeDto(*employees_v1.CreateEmployeeRequest) *dto.CreateEmployeeDto
 
 	MapEmployeeDtoToEmployeeModel(*dto.EmployeeDto) *model.EmployeeModel
 	MapEmployeeDtoToEmployeeResponse(*dto.EmployeeDto) *employees_v1.GetEmployeeByIdResponse
