@@ -2,7 +2,6 @@ package employees
 
 import (
 	"encoding/json"
-	"fmt"
 	dto "github.com/emptyhopes/employees/internal/dto/employees"
 	"github.com/emptyhopes/employees/internal/repository"
 	defenition "github.com/emptyhopes/employees/internal/service"
@@ -55,9 +54,6 @@ func (s *service) CreateEmployee(createEmployeeDto *dto.CreateEmployeeDto) error
 	if err != nil {
 		return err
 	}
-
-	fmt.Println(createEmployeeDto)
-	fmt.Println("создал")
 
 	return nil
 }

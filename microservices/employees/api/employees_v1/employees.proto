@@ -25,4 +25,5 @@ message CreateEmployeeRequest {
 
 message Employee {
   string employee_id = 1;
+  string test = 2;
 }

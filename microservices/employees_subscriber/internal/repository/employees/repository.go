@@ -26,6 +26,7 @@ func NewEmployeeRepository(
 	return &repository{
 		employeeConverter: employeeConverter,
 		database:          database,
+		rwmutex:           sync.RWMutex{},
 	}
 }
 
@@ -64,7 +65,7 @@ func insertEmployee(
         );
     `
 
-	_, err := pool.Query(
+	_, err := pool.Exec(
 		context.Background(),
 		query,
 		model.EmployeeId,

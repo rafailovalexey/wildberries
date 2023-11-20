@@ -35,6 +35,7 @@ func (c *converter) MapEmployeeDtoToEmployeeResponse(
 	return &employees_v1.GetEmployeeByIdResponse{
 		Employee: &employees_v1.Employee{
 			EmployeeId: dto.EmployeeId,
+			Test:       dto.Test,
 		},
 	}
 }

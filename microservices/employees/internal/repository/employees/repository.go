@@ -55,7 +55,8 @@ func getEmployee(
 ) (*model.EmployeeModel, error) {
 	query := `
         SELECT
-           	employee_id
+           	employee_id,
+           	test
         FROM employees
         WHERE employee_id = $1
     `
@@ -68,6 +69,7 @@ func getEmployee(
 		employeeId,
 	).Scan(
 		&employee.EmployeeId,
+		&employee.Test,
 	)
 
 	if err != nil {

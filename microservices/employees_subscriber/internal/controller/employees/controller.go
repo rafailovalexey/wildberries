@@ -50,5 +50,5 @@ func (c *controller) CreateEmployee(
 		return
 	}
 
-	fmt.Printf("сотрудник успешно создан с employee_id: %s", employeeDto.EmployeeId)
+	fmt.Printf("сотрудник успешно создан с employee_id: %s\n", employeeDto.EmployeeId)
 }
