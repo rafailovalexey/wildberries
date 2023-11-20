@@ -1,7 +1,6 @@
 package grpc_server
 
 import (
-	"context"
 	"fmt"
 	interceptor "github.com/emptyhopes/employees/cmd/grpc_server/intereptor"
 	"github.com/emptyhopes/employees/cmd/grpc_server/middleware"
@@ -51,16 +50,4 @@ func Run(api employees_v1.EmployeesV1Server) {
 	if err != nil {
 		log.Fatalf("ошибка запуска grpc сервера %v", err)
 	}
-}
-
-func unaryClientInterceptor(ctx context.Context, method string, req, reply interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
-	// Дополнительная логика перед отправкой запроса
-	fmt.Printf("Unary client interceptor: %s\n", method)
-
-	// Вызов следующего обработчика в цепочке
-	err := invoker(ctx, method, req, reply, cc, opts...)
-
-	// Дополнительная логика после получения ответа
-
-	return err
 }
