@@ -1,14 +1,15 @@
 package converter
 
 import (
-	dto "github.com/emptyhopes/employees_cron/internal/dto/employees"
-	model "github.com/emptyhopes/employees_cron/internal/model/employees"
+	dto "github.com/emptyhopes/employees_proxy/internal/dto/employees"
+	request "github.com/emptyhopes/employees_proxy/internal/request/employees"
+	"github.com/emptyhopes/employees_proxy/pkg/employees_v1"
 )
 
 type InterfaceEmployeeConverter interface {
-	MapEmployeeDtoToEmployeeModel(*dto.EmployeeDto) *model.EmployeeModel
-	MapEmployeesDtoToEmployeesModel(*dto.EmployeesDto) *model.EmployeesModel
+	MapGetEmployeeByIdRequestToGetEmployeeByIdDto(*request.GetEmployeeByIdRequest) *dto.GetEmployeeByIdDto
+	MapCreateEmployeeRequestToCreateEmployeeDto(*request.CreateEmployeeRequest) *dto.CreateEmployeeDto
 
-	MapEmployeeModelToEmployeeDto(*model.EmployeeModel) *dto.EmployeeDto
-	MapEmployeesModelToEmployeesDto(model *model.EmployeesModel) *dto.EmployeesDto
+	MapGetEmployeeByIdResponseToEmployeeDto(*employees_v1.GetEmployeeByIdResponse) *dto.EmployeeDto
+	MapResultResponseToResultDto(*employees_v1.ResultResponse) *dto.ResultDto
 }
