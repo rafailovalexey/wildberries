@@ -9,6 +9,7 @@ import (
 	"github.com/emptyhopes/employees_cron/storage"
 	"github.com/jackc/pgx/v4/pgxpool"
 	"sync"
+	"time"
 )
 
 type repository struct {
@@ -139,14 +140,17 @@ func updateEmployeeConfirmation(
 ) error {
 	query := `
         UPDATE employees 
-		SET confirmation = $1
-        WHERE employee_id = $2;
+		SET 
+		    confirmation = $1,
+		    updated_at = $2
+        WHERE employee_id = $3;
     `
 
 	_, err := pool.Exec(
 		context.Background(),
 		query,
 		true,
+		time.Now(),
 		employeeModel.EmployeeId,
 	)
 

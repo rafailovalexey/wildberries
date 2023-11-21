@@ -34,8 +34,6 @@ func NewEmployeeModel(
 	department string,
 	dateOfBirth time.Time,
 	hireDate time.Time,
-	createdAt time.Time,
-	updatedAt time.Time,
 ) *EmployeeModel {
 	return &EmployeeModel{
 		EmployeeId:   employeeId,
@@ -49,7 +47,7 @@ func NewEmployeeModel(
 		Department:   department,
 		DateOfBirth:  dateOfBirth,
 		HireDate:     hireDate,
-		CreatedAt:    createdAt,
-		UpdatedAt:    updatedAt,
+		CreatedAt:    time.Now(),
+		UpdatedAt:    time.Now(),
 	}
 }

@@ -3,19 +3,19 @@ package employees
 import "time"
 
 type GetEmployeeByIdDto struct {
-	EmployeeId string
+	EmployeeId string `json:"employee_id"`
 }
 
 type CreateEmployeeDto struct {
-	Firstname   string
-	Lastname    string
-	Email       string
-	PhoneNumber string
-	Address     string
-	Position    string
-	Department  string
-	DateOfBirth time.Time
-	HireDate    time.Time
+	Firstname   string    `json:"firstname"`
+	Lastname    string    `json:"lastname"`
+	Email       string    `json:"email"`
+	PhoneNumber string    `json:"phone_number"`
+	Address     string    `json:"address"`
+	Position    string    `json:"position"`
+	Department  string    `json:"department"`
+	DateOfBirth time.Time `json:"date_of_birth"`
+	HireDate    time.Time `json:"hire_date"`
 }
 
 type EmployeeDto struct {

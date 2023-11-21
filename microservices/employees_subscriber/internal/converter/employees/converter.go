@@ -49,8 +49,6 @@ func (c *converter) MapEmployeeDtoToEmployeeModel(
 		dto.Department,
 		dto.DateOfBirth,
 		dto.HireDate,
-		dto.CreatedAt,
-		dto.UpdatedAt,
 	)
 }
 
