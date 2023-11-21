@@ -13,6 +13,18 @@ services:
       context: "../microservices/employees"
       dockerfile: "application.dockerfile"
 
+  employees_proxy:
+    container_name: "employees_proxy"
+    hostname: "employees_proxy"
+    restart: "always"
+    ports:
+      - "3001:3001"
+    networks:
+      - "network"
+    build:
+      context: "../microservices/employees_proxy"
+      dockerfile: "application.dockerfile"
+
   employees_publisher:
     container_name: "employees_publisher"
     hostname: "employees_publisher"
