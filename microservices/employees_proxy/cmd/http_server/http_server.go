@@ -5,13 +5,14 @@ import (
 	"github.com/emptyhopes/employees_proxy/cmd/http_server/interceptor"
 	"github.com/emptyhopes/employees_proxy/cmd/http_server/middleware"
 	"github.com/emptyhopes/employees_proxy/internal/api"
+	"github.com/gorilla/mux"
 	"log"
 	"net/http"
 	"os"
 )
 
 func Run(employeeApi api.InterfaceEmployeeApi) {
-	router := http.NewServeMux()
+	router := mux.NewRouter()
 
 	middlewares := middleware.ChainMiddleware(
 		interceptor.LoggingInterceptor,
@@ -19,7 +20,13 @@ func Run(employeeApi api.InterfaceEmployeeApi) {
 		middleware.AuthenticationMiddleware,
 	)
 
-	router.Handle("/v1/employees/", middlewares(http.HandlerFunc(employeeApi.EmployeesHandler)))
+	router.Use(middlewares)
+
+	router.NotFoundHandler = http.HandlerFunc(employeeApi.NotFound)
+	router.MethodNotAllowedHandler = http.HandlerFunc(employeeApi.MethodNotAllowed)
+
+	router.HandleFunc("/v1/employees/{id:[a-zA-Z0-9-]+}", employeeApi.GetEmployeeById).Methods("GET")
+	router.HandleFunc("/v1/employees", employeeApi.CreateEmployee).Methods("POST")
 
 	hostname := os.Getenv("HOSTNAME")
 

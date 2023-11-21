@@ -8,6 +8,7 @@ import (
 	dto "github.com/emptyhopes/employees_proxy/internal/dto/employees"
 	"github.com/emptyhopes/employees_proxy/internal/service"
 	"github.com/emptyhopes/employees_proxy/internal/validation"
+	"github.com/gorilla/mux"
 	"net/http"
 	"strings"
 )
@@ -33,45 +34,35 @@ func NewEmployeeApi(
 }
 
 func (a *api) GetEmployeeById(response http.ResponseWriter, request *http.Request) {
-	// Очень плохо выглядит нужно либо выносить в пакет отдельный, либо использовать уже какой-то отдельный пакет
-	segments := strings.Split(request.URL.Path, "/")
+	variables := mux.Vars(request)
+	employeeId := variables["id"]
 
-	if len(segments) != 4 || segments[1] != "v1" || segments[2] != "employees" {
-		http.Error(response, getErrorJson("неверный URL"), http.StatusBadRequest)
-
-		return
-	}
-
-	id := segments[3]
-
-	err := a.employeeValidation.GetEmployeeByIdValidation(id)
+	err := a.employeeValidation.GetEmployeeByIdValidation(employeeId)
 
 	if err != nil {
-		http.Error(response, getErrorJson(err.Error()), http.StatusBadRequest)
+		response.Header().Set("Content-Type", "application/json")
+		response.WriteHeader(http.StatusBadRequest)
+		response.Write(getErrorInJson(err.Error()))
 
 		return
 	}
 
-	getEmployeeByIdDto := dto.NewGetEmployeeByIdDto(id)
+	getEmployeeByIdDto := dto.NewGetEmployeeByIdDto(employeeId)
 
 	employeeDto, err := a.employeeService.GetEmployeeById(getEmployeeByIdDto)
 
 	if err != nil {
 		if strings.Contains(err.Error(), "no rows in result set") {
-			http.Error(response, getErrorJson(fmt.Sprintf("соотрудник не найден с employee_id: %s", id)), http.StatusBadRequest)
+			response.Header().Set("Content-Type", "application/json")
+			response.WriteHeader(http.StatusBadRequest)
+			response.Write(getErrorInJson(fmt.Sprintf("соотрудник не найден с employee_id: %s", employeeId)))
 
 			return
 		}
 
-		http.Error(response, getErrorJson(err.Error()), http.StatusBadRequest)
-
-		return
-	}
-
-	employeeJson, err := json.Marshal(employeeDto)
-
-	if err != nil {
-		http.Error(response, getErrorJson(err.Error()), http.StatusInternalServerError)
+		response.Header().Set("Content-Type", "application/json")
+		response.WriteHeader(http.StatusBadRequest)
+		response.Write(getErrorInJson(err.Error()))
 
 		return
 	}
@@ -79,22 +70,16 @@ func (a *api) GetEmployeeById(response http.ResponseWriter, request *http.Reques
 	response.Header().Set("Content-Type", "application/json")
 	response.WriteHeader(http.StatusOK)
 
-	_, err = response.Write(employeeJson)
-
-	if err != nil {
-		http.Error(response, getErrorJson(err.Error()), http.StatusInternalServerError)
-
-		return
-	}
+	json.NewEncoder(response).Encode(employeeDto)
 }
 
 func (a *api) CreateEmployee(response http.ResponseWriter, request *http.Request) {
 	var createEmployeeDto dto.CreateEmployeeDto
 
-	decoder := json.NewDecoder(request.Body)
-
-	if err := decoder.Decode(&createEmployeeDto); err != nil {
-		http.Error(response, getErrorJson(fmt.Sprintf("failed to parse request body: %s", err.Error())), http.StatusBadRequest)
+	if err := json.NewDecoder(request.Body).Decode(&createEmployeeDto); err != nil {
+		response.Header().Set("Content-Type", "application/json")
+		response.WriteHeader(http.StatusBadRequest)
+		response.Write(getErrorInJson(fmt.Sprintf("failed to parse request body: %s", err.Error())))
 
 		return
 	}
@@ -104,7 +89,9 @@ func (a *api) CreateEmployee(response http.ResponseWriter, request *http.Request
 	err := a.employeeValidation.CreateEmployeeValidation(&createEmployeeDto)
 
 	if err != nil {
-		http.Error(response, getErrorJson(err.Error()), http.StatusBadRequest)
+		response.Header().Set("Content-Type", "application/json")
+		response.WriteHeader(http.StatusBadRequest)
+		response.Write(getErrorInJson(err.Error()))
 
 		return
 	}
@@ -112,55 +99,45 @@ func (a *api) CreateEmployee(response http.ResponseWriter, request *http.Request
 	resultDto, err := a.employeeService.CreateEmployee(&createEmployeeDto)
 
 	if err != nil {
-		http.Error(response, getErrorJson(err.Error()), http.StatusBadRequest)
-
-		return
-	}
-
-	resultJson, err := json.Marshal(resultDto)
-
-	if err != nil {
-		http.Error(response, getErrorJson(err.Error()), http.StatusInternalServerError)
+		response.Header().Set("Content-Type", "application/json")
+		response.WriteHeader(http.StatusBadRequest)
+		response.Write(getErrorInJson(err.Error()))
 
 		return
 	}
 
 	response.Header().Set("Content-Type", "application/json")
-	response.WriteHeader(http.StatusOK)
+	response.WriteHeader(http.StatusCreated)
 
-	_, err = response.Write(resultJson)
+	json.NewEncoder(response).Encode(resultDto)
+}
+
+func (a *api) NotFound(response http.ResponseWriter, request *http.Request) {
+	response.Header().Set("Content-Type", "application/json")
+	response.WriteHeader(http.StatusNotFound)
+	response.Write(getErrorInJson("not found"))
+}
+
+func (a *api) MethodNotAllowed(response http.ResponseWriter, request *http.Request) {
+	response.Header().Set("Content-Type", "application/json")
+	response.WriteHeader(http.StatusMethodNotAllowed)
+	response.Write(getErrorInJson("method not allowed"))
+}
+
+func getErrorInJson(message string) []byte {
+	type ErrorStruct struct {
+		Error string `json:"error"`
+	}
+
+	errorStruct := &ErrorStruct{
+		Error: message,
+	}
+
+	errJson, err := json.Marshal(errorStruct)
 
 	if err != nil {
-		http.Error(response, getErrorJson(err.Error()), http.StatusInternalServerError)
-
-		return
+		return []byte(err.Error())
 	}
-}
 
-/*
-EmployeesHandler
-Использовал парсинг URL, для того, чтобы добиться REST поведения
-GetAllEmployees - /v1/employees
-GetEmployeeById - /v1/employees/:id
-*/
-func (a *api) EmployeesHandler(response http.ResponseWriter, request *http.Request) {
-	// Очень плохо выглядит нужно либо выносить в пакет отдельный, либо использовать уже какой-то отдельный пакет
-	switch request.Method {
-	case http.MethodGet:
-		if strings.HasPrefix(request.URL.Path, "/v1/employees/") {
-			a.GetEmployeeById(response, request)
-
-			return
-		}
-
-		http.Error(response, getErrorJson("несуществующий url"), http.StatusNotFound)
-	case http.MethodPost:
-		a.CreateEmployee(response, request)
-	default:
-		http.Error(response, getErrorJson("несуществующий http метод"), http.StatusMethodNotAllowed)
-	}
-}
-
-func getErrorJson(message string) string {
-	return fmt.Sprintf("{\"error\":\"%s\"}", message)
+	return errJson
 }

@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"os"
@@ -23,10 +24,31 @@ func AuthenticationMiddleware(next http.Handler) http.Handler {
 		key := request.Header.Get(header)
 
 		if key != token {
-			http.Error(response, "Unauthorized", http.StatusUnauthorized)
+			response.Header().Set("Content-Type", "application/json")
+			response.WriteHeader(http.StatusUnauthorized)
+			response.Write(getErrorInJson("unauthorized"))
+
 			return
 		}
 
 		next.ServeHTTP(response, request)
 	})
+}
+
+func getErrorInJson(message string) []byte {
+	type ErrorStruct struct {
+		Error string `json:"error"`
+	}
+
+	errorStruct := &ErrorStruct{
+		Error: message,
+	}
+
+	errJson, err := json.Marshal(errorStruct)
+
+	if err != nil {
+		return []byte(err.Error())
+	}
+
+	return errJson
 }
