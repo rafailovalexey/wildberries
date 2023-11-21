@@ -15,4 +15,4 @@ RUN export PATH="$PATH:$(go env GOPATH)/bin"
 RUN make download
 RUN make build
 
-CMD ["./bin/main"]
+CMD ["./build/main"]

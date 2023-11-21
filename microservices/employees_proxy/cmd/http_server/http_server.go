@@ -38,7 +38,7 @@ func Run(employeeApi api.InterfaceEmployeeApi) {
 
 	address := fmt.Sprintf("%s:%s", hostname, port)
 
-	log.Println(fmt.Sprintf("сервер запускается по адресу %s", address))
+	log.Println(fmt.Sprintf("http сервер запускается по адресу %s", address))
 
 	err := http.ListenAndServe(address, router)
 
