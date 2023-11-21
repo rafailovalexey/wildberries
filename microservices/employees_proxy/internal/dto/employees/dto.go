@@ -19,25 +19,25 @@ type CreateEmployeeDto struct {
 }
 
 type EmployeeDto struct {
-	EmployeeId   string
-	Confirmation bool
-	Firstname    string
-	Lastname     string
-	Email        string
-	PhoneNumber  string
-	Address      string
-	Position     string
-	Department   string
-	DateOfBirth  time.Time
-	HireDate     time.Time
-	CreatedAt    time.Time
-	UpdatedAt    time.Time
+	EmployeeId   string    `json:"employee_id"`
+	Confirmation bool      `json:"confirmation"`
+	Firstname    string    `json:"firstname"`
+	Lastname     string    `json:"lastname"`
+	Email        string    `json:"email"`
+	PhoneNumber  string    `json:"phone_number"`
+	Address      string    `json:"address"`
+	Position     string    `json:"position"`
+	Department   string    `json:"department"`
+	DateOfBirth  time.Time `json:"date_of_birth"`
+	HireDate     time.Time `json:"hire_date"`
+	CreatedAt    time.Time `json:"created_at"`
+	UpdatedAt    time.Time `json:"updated_at"`
 }
 
 type EmployeesDto = []EmployeeDto
 
 type ResultDto struct {
-	Result bool
+	Result bool `json:"result"`
 }
 
 func NewEmployeeDto(
