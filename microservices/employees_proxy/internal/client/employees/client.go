@@ -33,14 +33,14 @@ func (c *client) GetEmployeeById(getEmployeeByIdDto *dto.GetEmployeeByIdDto) (*d
 	url := os.Getenv("EMPLOYEES_URL")
 
 	if url == "" {
-		log.Fatalf("укажите employees url")
+		log.Panicf("укажите employees url")
 	}
 
 	conn, err := grpc.Dial(url, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	defer conn.Close()
 
 	if err != nil {
-		log.Fatalf("error: %v\n", err)
+		log.Panicf("error: %v\n", err)
 	}
 
 	cl := employees_v1.NewEmployeesV1Client(conn)
@@ -48,13 +48,13 @@ func (c *client) GetEmployeeById(getEmployeeByIdDto *dto.GetEmployeeByIdDto) (*d
 	authenticationTokenHeader := os.Getenv("EMPLOYEES_AUTHENTICATION_TOKEN_HEADER")
 
 	if authenticationTokenHeader == "" {
-		log.Fatalf("укажите employees header token authentication")
+		log.Panicf("укажите employees header token authentication")
 	}
 
 	authenticationToken := os.Getenv("EMPLOYEES_AUTHENTICATION_TOKEN")
 
 	if authenticationToken == "" {
-		log.Fatalf("укажите employees token authentication")
+		log.Panicf("укажите employees token authentication")
 	}
 
 	md := metadata.Pairs(
@@ -83,14 +83,14 @@ func (c *client) CreateEmployee(createEmployeeDto *dto.CreateEmployeeDto) (*dto.
 	url := os.Getenv("EMPLOYEES_URL")
 
 	if url == "" {
-		log.Fatalf("укажите employees url")
+		log.Panicf("укажите employees url")
 	}
 
 	conn, err := grpc.Dial(url, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	defer conn.Close()
 
 	if err != nil {
-		log.Fatalf("error: %v\n", err)
+		log.Panicf("error: %v\n", err)
 	}
 
 	cl := employees_v1.NewEmployeesV1Client(conn)
@@ -98,13 +98,13 @@ func (c *client) CreateEmployee(createEmployeeDto *dto.CreateEmployeeDto) (*dto.
 	authenticationTokenHeader := os.Getenv("EMPLOYEES_AUTHENTICATION_TOKEN_HEADER")
 
 	if authenticationTokenHeader == "" {
-		log.Fatalf("укажите employees header token authentication")
+		log.Panicf("укажите employees header token authentication")
 	}
 
 	authenticationToken := os.Getenv("EMPLOYEES_AUTHENTICATION_TOKEN")
 
 	if authenticationToken == "" {
-		log.Fatalf("укажите employees token authentication")
+		log.Panicf("укажите employees token authentication")
 	}
 
 	md := metadata.Pairs(

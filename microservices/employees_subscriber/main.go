@@ -12,7 +12,7 @@ func main() {
 	sub, err := subscriber.NewSubscriber(ctx)
 
 	if err != nil {
-		log.Fatalf("произошла ошибка при запуске приложения %v", err)
+		log.Panicf("произошла ошибка при запуске приложения %v", err)
 	}
 
 	sub.Run()

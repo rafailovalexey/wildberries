@@ -21,7 +21,7 @@ func NewEmployeeService(
 }
 
 func (s *service) UpdateEmployeeWithoutConfirmation() {
-	log.Println("cron начал свою работу")
+	log.Printf("%s\n", "cron начал свою работу")
 
 	employeesWithoutConfirmationDto, err := s.employeeRepository.GetEmployeesWithoutConfirmation()
 
@@ -43,5 +43,5 @@ func (s *service) UpdateEmployeeWithoutConfirmation() {
 		log.Printf("обновил подтверждение сотрудника с идентификатором employee_id: %s", dto.EmployeeId)
 	}
 
-	log.Println("cron завершил свою работу")
+	log.Printf("%s\n", "cron завершил свою работу")
 }

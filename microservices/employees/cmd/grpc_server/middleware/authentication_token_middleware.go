@@ -21,7 +21,7 @@ func AuthenticationTokenMiddleware() grpc.UnaryServerInterceptor {
 		header := os.Getenv("AUTHENTICATION_TOKEN_HEADER")
 
 		if header == "" {
-			log.Fatalf("not found authentication token header in environment")
+			log.Panicf("not found authentication token header in environment")
 		}
 
 		list := md[header]
@@ -35,7 +35,7 @@ func AuthenticationTokenMiddleware() grpc.UnaryServerInterceptor {
 		token := os.Getenv("AUTHENTICATION_TOKEN")
 
 		if token == "" {
-			log.Fatalf("not found authentication token in environment")
+			log.Panicf("not found authentication token in environment")
 		}
 
 		if token != key {

@@ -33,16 +33,16 @@ func Run(employeeApi api.InterfaceEmployeeApi) {
 	port := os.Getenv("PORT")
 
 	if port == "" {
-		log.Fatalf("укажите порт")
+		log.Panicf("укажите порт")
 	}
 
 	address := fmt.Sprintf("%s:%s", hostname, port)
 
-	log.Println(fmt.Sprintf("http сервер запускается по адресу %s", address))
+	log.Printf("%s\n", fmt.Sprintf("http сервер запускается по адресу %s", address))
 
 	err := http.ListenAndServe(address, router)
 
 	if err != nil {
-		log.Fatalf("ошибка при запуске сервера: %v\n", err)
+		log.Panicf("ошибка при запуске сервера: %v\n", err)
 	}
 }

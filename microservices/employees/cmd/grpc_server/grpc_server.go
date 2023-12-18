@@ -18,17 +18,17 @@ func Run(api employees_v1.EmployeesV1Server) {
 	port := os.Getenv("PORT")
 
 	if port == "" {
-		log.Fatalf("укажите порт")
+		log.Panicf("укажите порт")
 	}
 
 	address := fmt.Sprintf("%s:%s", hostname, port)
 
-	log.Println(fmt.Sprintf("GRPC сервер запускается по адресу %s", address))
+	log.Printf("%s\n", fmt.Sprintf("GRPC сервер запускается по адресу %s", address))
 
 	listener, err := net.Listen("tcp", address)
 
 	if err != nil {
-		log.Fatalf("ошибка запуска grpc сервера %v", err)
+		log.Panicf("ошибка запуска grpc сервера %v", err)
 	}
 
 	server := grpc.NewServer(
@@ -43,11 +43,11 @@ func Run(api employees_v1.EmployeesV1Server) {
 
 	employees_v1.RegisterEmployeesV1Server(server, api)
 
-	log.Println(fmt.Sprintf("GRPC сервер запущен по адресу %s", address))
+	log.Printf("%s\n", fmt.Sprintf("GRPC сервер запущен по адресу %s", address))
 
 	err = server.Serve(listener)
 
 	if err != nil {
-		log.Fatalf("ошибка запуска grpc сервера %v", err)
+		log.Panicf("ошибка запуска grpc сервера %v", err)
 	}
 }

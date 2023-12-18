@@ -17,7 +17,7 @@ func Run(service service.InterfaceEmployeeService) {
 	})
 
 	if err != nil {
-		log.Fatalf("произошла ошибка при выполнение cron %v", err)
+		log.Panicf("произошла ошибка при выполнение cron %v", err)
 
 		return
 	}
