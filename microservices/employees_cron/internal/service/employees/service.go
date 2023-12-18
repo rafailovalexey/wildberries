@@ -21,12 +21,12 @@ func NewEmployeeService(
 }
 
 func (s *service) UpdateEmployeeWithoutConfirmation() {
-	log.Printf("%s\n", "cron начал свою работу")
+	log.Printf("cron started working\n")
 
 	employeesWithoutConfirmationDto, err := s.employeeRepository.GetEmployeesWithoutConfirmation()
 
 	if err != nil {
-		log.Printf("произошла ошибка при получение списка соотрудников без подтверждённого аккаунта %v\n", err)
+		log.Printf("an error occurred when retrieving a list of employees without a verified account %v\n", err)
 
 		return
 	}
@@ -35,13 +35,13 @@ func (s *service) UpdateEmployeeWithoutConfirmation() {
 		err = s.employeeRepository.UpdateEmployeeConfirmation(&dto)
 
 		if err != nil {
-			log.Printf("произошла ошибка на сотрдунике с идентификатором employee_id: %s %v\n", dto.EmployeeId, err)
+			log.Printf("an error occurred on an employee with the identifier employee_id %s %v\n", dto.EmployeeId, err)
 
 			return
 		}
 
-		log.Printf("обновил подтверждение сотрудника с идентификатором employee_id: %s", dto.EmployeeId)
+		log.Printf("updated employee confirmation with employee_id %s", dto.EmployeeId)
 	}
 
-	log.Printf("%s\n", "cron завершил свою работу")
+	log.Printf("cron has finished its job\n")
 }

@@ -19,16 +19,16 @@ func LoggingInterceptor() grpc.UnaryServerInterceptor {
 
 		tracecode := md["tracecode"][0]
 
-		log.Printf("incoming GRPC request: %s (%s)", info.FullMethod, tracecode)
+		log.Printf("incoming grpc request: %s (%s)", info.FullMethod, tracecode)
 
 		response, err := handler(ctx, request)
 
 		if err != nil {
-			log.Printf("error in GRPC request: %s (%s) \n %v", info.FullMethod, tracecode, err)
+			log.Printf("error in grpc request %s (%s) \n %v", info.FullMethod, tracecode, err)
 		}
 
 		if err == nil {
-			log.Printf("outgoing GRPC response: %s (%s)", info.FullMethod, tracecode)
+			log.Printf("outgoing grpc response %s (%s)", info.FullMethod, tracecode)
 		}
 
 		return response, err

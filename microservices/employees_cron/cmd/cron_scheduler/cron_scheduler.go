@@ -17,12 +17,12 @@ func Run(service service.InterfaceEmployeeService) {
 	})
 
 	if err != nil {
-		log.Panicf("произошла ошибка при выполнение cron %v", err)
+		log.Panicf("n error occurred while executing cron %v", err)
 
 		return
 	}
 
-	log.Printf("cron запустился")
+	log.Printf("cron started\n")
 
 	c.Start()
 	defer c.Stop()

@@ -30,7 +30,7 @@ func (p *publisher) Initialize() {
 	url := os.Getenv("NATS_URL")
 
 	if url == "" {
-		log.Panicf("укажите nats url")
+		log.Panicf("specify nats url")
 	}
 
 	p.url = url
@@ -38,7 +38,7 @@ func (p *publisher) Initialize() {
 	cluster := os.Getenv("NATS_CLUSTER_ID")
 
 	if cluster == "" {
-		log.Panicf("укажите идентификатор кластера")
+		log.Panicf("specify the cluster id")
 	}
 
 	p.cluster = cluster
@@ -48,7 +48,7 @@ func (p *publisher) GetConnect() stan.Conn {
 	sc, err := stan.Connect(p.cluster, "publisher-1", stan.NatsURL(p.url))
 
 	if err != nil {
-		log.Panicf("ошибка %v\n", err)
+		log.Panicf("error %v\n", err)
 	}
 
 	return sc

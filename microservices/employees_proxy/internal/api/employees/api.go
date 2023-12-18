@@ -55,7 +55,7 @@ func (a *api) GetEmployeeById(response http.ResponseWriter, request *http.Reques
 		if strings.Contains(err.Error(), "no rows in result set") {
 			response.Header().Set("Content-Type", "application/json")
 			response.WriteHeader(http.StatusBadRequest)
-			response.Write(getErrorInJson(fmt.Sprintf("соотрудник не найден с employee_id: %s", employeeId)))
+			response.Write(getErrorInJson(fmt.Sprintf("employee not found with employee_id %s", employeeId)))
 
 			return
 		}
@@ -79,7 +79,7 @@ func (a *api) CreateEmployee(response http.ResponseWriter, request *http.Request
 	if err := json.NewDecoder(request.Body).Decode(&createEmployeeDto); err != nil {
 		response.Header().Set("Content-Type", "application/json")
 		response.WriteHeader(http.StatusBadRequest)
-		response.Write(getErrorInJson(fmt.Sprintf("failed to parse request body: %s", err.Error())))
+		response.Write(getErrorInJson(fmt.Sprintf("failed to parse request body %s", err.Error())))
 
 		return
 	}

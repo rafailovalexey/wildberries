@@ -35,7 +35,7 @@ func (c *controller) CreateEmployee(
 	err := json.Unmarshal(message.Data, &employeePayload)
 
 	if err != nil {
-		log.Printf("произошла ошибка парсинга %v\n", err)
+		log.Printf("a parsing error occurred %v\n", err)
 
 		return
 	}
@@ -45,10 +45,10 @@ func (c *controller) CreateEmployee(
 	err = c.employeeService.CreateEmployee(employeeDto)
 
 	if err != nil {
-		log.Printf("произошла ошибка при создание сотрудника %v\n", err)
+		log.Printf("an error occurred while creating an employee %v\n", err)
 
 		return
 	}
 
-	log.Printf("сотрудник успешно создан с employee_id: %s\n", employeeDto.EmployeeId)
+	log.Printf("employee successfully created with employee_id %s\n", employeeDto.EmployeeId)
 }

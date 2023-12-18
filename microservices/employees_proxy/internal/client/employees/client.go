@@ -33,7 +33,7 @@ func (c *client) GetEmployeeById(getEmployeeByIdDto *dto.GetEmployeeByIdDto) (*d
 	url := os.Getenv("EMPLOYEES_URL")
 
 	if url == "" {
-		log.Panicf("укажите employees url")
+		log.Panicf("specify employees url")
 	}
 
 	conn, err := grpc.Dial(url, grpc.WithTransportCredentials(insecure.NewCredentials()))
@@ -48,13 +48,13 @@ func (c *client) GetEmployeeById(getEmployeeByIdDto *dto.GetEmployeeByIdDto) (*d
 	authenticationTokenHeader := os.Getenv("EMPLOYEES_AUTHENTICATION_TOKEN_HEADER")
 
 	if authenticationTokenHeader == "" {
-		log.Panicf("укажите employees header token authentication")
+		log.Panicf("specify employees header token authentication")
 	}
 
 	authenticationToken := os.Getenv("EMPLOYEES_AUTHENTICATION_TOKEN")
 
 	if authenticationToken == "" {
-		log.Panicf("укажите employees token authentication")
+		log.Panicf("specify employees token authentication")
 	}
 
 	md := metadata.Pairs(
@@ -83,7 +83,7 @@ func (c *client) CreateEmployee(createEmployeeDto *dto.CreateEmployeeDto) (*dto.
 	url := os.Getenv("EMPLOYEES_URL")
 
 	if url == "" {
-		log.Panicf("укажите employees url")
+		log.Panicf("specify employees url")
 	}
 
 	conn, err := grpc.Dial(url, grpc.WithTransportCredentials(insecure.NewCredentials()))
@@ -98,13 +98,13 @@ func (c *client) CreateEmployee(createEmployeeDto *dto.CreateEmployeeDto) (*dto.
 	authenticationTokenHeader := os.Getenv("EMPLOYEES_AUTHENTICATION_TOKEN_HEADER")
 
 	if authenticationTokenHeader == "" {
-		log.Panicf("укажите employees header token authentication")
+		log.Panicf("specify employees header token authentication")
 	}
 
 	authenticationToken := os.Getenv("EMPLOYEES_AUTHENTICATION_TOKEN")
 
 	if authenticationToken == "" {
-		log.Panicf("укажите employees token authentication")
+		log.Panicf("specify employees token authentication")
 	}
 
 	md := metadata.Pairs(

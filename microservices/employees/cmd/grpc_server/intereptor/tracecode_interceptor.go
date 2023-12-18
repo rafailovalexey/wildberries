@@ -16,7 +16,7 @@ func TracecodeInterceptor() grpc.UnaryServerInterceptor {
 		md, isExist := metadata.FromIncomingContext(ctx)
 
 		if !isExist {
-			log.Printf("TracecodeInterceptor: metadata not found in the request context")
+			log.Printf("metadata not found in the request context\n")
 
 			return nil, status.Errorf(codes.Internal, "failed to read metadata")
 		}

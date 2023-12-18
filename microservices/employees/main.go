@@ -12,7 +12,7 @@ func main() {
 	app, err := application.NewApplication(ctx)
 
 	if err != nil {
-		log.Panicf("произошла ошибка при запуске приложения %v", err)
+		log.Panicf("an error occurred while starting the application %v", err)
 	}
 
 	app.Run()

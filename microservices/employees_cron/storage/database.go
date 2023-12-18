@@ -31,37 +31,37 @@ func (d *database) Initialize() {
 	username := os.Getenv("POSTGRESQL_USERNAME")
 
 	if username == "" {
-		log.Panicf("укажите пользователя базы данных")
+		log.Panicf("specify the database user")
 	}
 
 	password := os.Getenv("POSTGRESQL_PASSWORD")
 
 	if password == "" {
-		log.Panicf("укажите пользователя базы данных")
+		log.Panicf("specify the database user password")
 	}
 
 	db := os.Getenv("POSTGRESQL_DATABASE")
 
 	if db == "" {
-		log.Panicf("укажите название базы данных")
+		log.Panicf("indicate the name of the database")
 	}
 
 	hostname := os.Getenv("POSTGRESQL_HOSTNAME")
 
 	if hostname == "" {
-		log.Panicf("укажите имя хоста базы данных")
+		log.Panicf("specify the database hostname")
 	}
 
 	port := os.Getenv("POSTGRESQL_PORT")
 
 	if port == "" {
-		log.Panicf("укажите порт базы данных")
+		log.Panicf("specify the database port")
 	}
 
 	sslmode := os.Getenv("POSTGRESQL_SSLMODE")
 
 	if sslmode == "" {
-		log.Panicf("укажите ssl mode базы данных")
+		log.Panicf("specify the ssl mode of the database")
 	}
 
 	d.credentials = fmt.Sprintf("user=%s password=%s dbname=%s host=%s port=%s sslmode=%s", username, password, db, hostname, port, sslmode)
@@ -71,7 +71,7 @@ func (d *database) GetPool() *pgxpool.Pool {
 	pool, err := pgxpool.Connect(context.Background(), d.credentials)
 
 	if err != nil {
-		log.Panicf("ошибка %v\n", err)
+		log.Panicf("error %v\n", err)
 	}
 
 	return pool

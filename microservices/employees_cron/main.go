@@ -12,7 +12,7 @@ func main() {
 	c, err := cron.NewCron(ctx)
 
 	if err != nil {
-		log.Panicf("произошла ошибка при запуске приложения %v", err)
+		log.Panicf("an error occurred while starting the application %v", err)
 	}
 
 	c.Run()
